@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Your Expenses</h2>
+        <p class="page-subtitle">Track, manage, and control your spending</p>
+    </div>
+    <a href="/add" class="btn btn-primary" id="add-expense-btn">
+        <span class="btn-icon">+</span> Add Expense
+    </a>
+</div>
+
+{% if expenses %}
+<div class="table-card">
+    <table id="expenses-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in expenses %}
+            <tr class="expense-row">
+                <td class="row-index">{{ loop.index }}</td>
+                <td>
+                    <span class="category-badge">{{ e.category }}</span>
+                </td>
+                <td class="amount-cell">₹{{ "%.2f"|format(e.amount) }}</td>
+                <td class="date-cell">{{ e.date }}</td>
+                <td class="actions-cell">
+                    <a href="/edit/{{ loop.index0 }}" class="btn btn-edit" id="edit-btn-{{ loop.index0 }}">Edit</a>
+                    <a href="/delete/{{ loop.index0 }}" class="btn btn-delete" id="delete-btn-{{ loop.index0 }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-icon">📭</div>
+    <h3>No expenses yet</h3>
+    <p>Start tracking your spending by adding your first expense.</p>
+    <a href="/add" class="btn btn-primary" id="add-first-expense-btn">+ Add Your First Expense</a>
+</div>
+{% endif %}
+
+{% endblock %}
